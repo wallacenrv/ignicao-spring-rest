@@ -50,6 +50,13 @@
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
+
+<!--		vai carregar so o que precisa, ele é mais rapido -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -59,6 +66,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 
 <!--				na hora de gerar o jar , o lombok sera tirado -->
+<!--				para start mais rapido vai no menu Build > Build project-->
 				<configuration>
 					<excludes>
 						<exclude>
