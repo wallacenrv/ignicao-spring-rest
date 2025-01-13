@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,11 +65,25 @@ public class ProprietarioController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Proprietario adicionar(@RequestBody Proprietario proprietario) {
       return  proprietarioRepository.save(proprietario);
 
+    }
 
+    @PutMapping("/{proprietarioId}")
+    public ResponseEntity<Proprietario> atualizar(@RequestBody Proprietario proprietario,
+                                  @PathVariable Long proprietarioId) {
+
+        if(!proprietarioRepository.existsById(proprietarioId)){ // aqui é um boolean
+            return ResponseEntity.notFound().build();
+        }
+        proprietario.setId(proprietarioId);
+        Proprietario proprietarioAtualizado = proprietarioRepository.save(proprietario);
+
+        return ResponseEntity.ok().body(proprietarioAtualizado);
     }
 
 
-    }
+
+}
