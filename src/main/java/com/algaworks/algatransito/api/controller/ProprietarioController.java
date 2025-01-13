@@ -48,34 +48,24 @@ public class ProprietarioController {
     @GetMapping("/{proprietarioId}")
     public ResponseEntity<Proprietario> buscar(@PathVariable Long proprietarioId) {
 
-       // Optional<Proprietario> proprietario = proprietarioRepository.findById(proprietarioId);
-
         return proprietarioRepository.findById(proprietarioId)
                 .map(proprietario -> ResponseEntity.ok(proprietario))
                 .orElse(ResponseEntity.notFound().build());
 
-
-   /* Outra forma de fazer :
-
-        if (proprietario.isPresent()){
-           return ResponseEntity.ok(proprietario.get());
-        }
-        return ResponseEntity.notFound().build();
-    */
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Proprietario adicionar(@RequestBody Proprietario proprietario) {
-      return  proprietarioRepository.save(proprietario);
+        return proprietarioRepository.save(proprietario);
 
     }
 
     @PutMapping("/{proprietarioId}")
     public ResponseEntity<Proprietario> atualizar(@RequestBody Proprietario proprietario,
-                                  @PathVariable Long proprietarioId) {
+                                                  @PathVariable Long proprietarioId) {
 
-        if(!proprietarioRepository.existsById(proprietarioId)){ // aqui é um boolean
+        if (!proprietarioRepository.existsById(proprietarioId)) { // aqui é um boolean
             return ResponseEntity.notFound().build();
         }
         proprietario.setId(proprietarioId);
@@ -84,6 +74,17 @@ public class ProprietarioController {
         return ResponseEntity.ok().body(proprietarioAtualizado);
     }
 
+    @DeleteMapping("/{proprietarioId}")
+    public ResponseEntity<Void> remover(@PathVariable Long proprietarioId) {
+
+        if (!proprietarioRepository.existsById(proprietarioId)) { // aqui é um boolean
+            return ResponseEntity.notFound().build(); // retorna 404
+        }
+
+        proprietarioRepository.deleteById(proprietarioId);
+
+        return ResponseEntity.noContent().build(); // quando nao tem corpo na resposta 204
+    }
 
 
 }
