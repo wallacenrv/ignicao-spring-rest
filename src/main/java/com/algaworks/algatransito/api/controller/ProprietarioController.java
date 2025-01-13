@@ -29,9 +29,13 @@ public class ProprietarioController {
 
  */
 
-    private final  ProprietarioRepository proprietarioRepository;
+    private final ProprietarioRepository proprietarioRepository;
+
     @GetMapping("/proprietarios")
-    public List<Proprietario> listar () {
+    public List<Proprietario> listar() {
+
+        var pessoa = proprietarioRepository.findByNomeContaining("Mar");
+        pessoa.forEach(p -> System.out.println(p.getNome()));
 
         return proprietarioRepository.findAll();
 
