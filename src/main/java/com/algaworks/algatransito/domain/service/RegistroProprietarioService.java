@@ -16,13 +16,20 @@ public class RegistroProprietarioService {
     @Transactional
     public Proprietario salvar(Proprietario proprietario) {
         boolean emailEmUso = proprietarioRepository.findByEmail(proprietario.getEmail())
-                .filter(p -> !p.equals(proprietario)) //Verifica se o proprietário encontrado não é o mesmo que está sendo salvo.  Permite verificar a duplicidade de e-mail sem impedir atualizações legítimas.
-                .isPresent();
+                .filter(p -> !p.equals(proprietario))
+                .isPresent(); //Se isPresent() for true, significa que o e-mail já está em uso por outro proprietário.
         if (emailEmUso) {
             throw new NegocioException("Já existe um proprietario cadastrado com esse email ");
         }
         return  proprietarioRepository.save(proprietario);
 
+        /*
+        A lógica é:
+            Se p for igual a proprietario, a expressão p.equals(proprietario) retorna true. O ! inverte isso, tornando o filtro false, ou seja, o proprietário será removido do fluxo.
+            Se p for diferente de proprietario, a expressão p.equals(proprietario) retorna false, e o ! inverte para true. Isso significa que o filtro mantém esse proprietário no fluxo.
+
+
+         */
     }
 
     public void excluir(Long proprietarioId) {
