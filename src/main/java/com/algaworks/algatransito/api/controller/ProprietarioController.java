@@ -1,5 +1,6 @@
 package com.algaworks.algatransito.api.controller;
 
+import com.algaworks.algatransito.domain.exception.NegocioException;
 import com.algaworks.algatransito.domain.model.Proprietario;
 import com.algaworks.algatransito.domain.repository.ProprietarioRepository;
 import com.algaworks.algatransito.domain.service.RegistroProprietarioService;
@@ -89,6 +90,11 @@ public class ProprietarioController {
         registroProprietarioService.excluir(proprietarioId);
 
         return ResponseEntity.noContent().build(); // quando nao tem corpo na resposta 204
+    }
+
+    @ExceptionHandler(NegocioException.class) // metodo que captura excecoes
+    public ResponseEntity<String> capturar(NegocioException e) {
+        return ResponseEntity.badRequest().body(e.getMessage()); // indica que o problema é do consumidor
     }
 
 
