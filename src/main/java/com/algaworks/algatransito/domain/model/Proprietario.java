@@ -36,7 +36,7 @@ public class Proprietario {
     private String email;
 
     @NotBlank
-    @Size(max= 11)
+    @Size(max= 14)
     private String telefone;
 
 
