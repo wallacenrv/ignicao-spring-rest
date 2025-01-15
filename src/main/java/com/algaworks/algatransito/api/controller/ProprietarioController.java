@@ -67,7 +67,7 @@ public class ProprietarioController {
     }
 
     @PutMapping("/{proprietarioId}")
-    public ResponseEntity<Proprietario> atualizar(@RequestBody Proprietario proprietario,
+    public ResponseEntity<Proprietario> atualizar( @Valid @RequestBody Proprietario proprietario,
                                                   @PathVariable Long proprietarioId) {
 
         if (!proprietarioRepository.existsById(proprietarioId)) { // aqui é um boolean
