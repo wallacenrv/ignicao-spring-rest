@@ -40,8 +40,8 @@ public class VeiculoController {
      return registroVeiculoService.cadastrar(veiculo);
     }
 
-    @ExceptionHandler(NegocioException.class) // metodo que captura excecoes
-    public ResponseEntity<String> capturar(NegocioException e) {
-        return ResponseEntity.badRequest().body(e.getMessage()); // indica que o problema é do consumidor
-    }
+//    @ExceptionHandler(NegocioException.class) // metodo que captura excecoes
+//    public ResponseEntity<String> capturar(NegocioException e) {
+//        return ResponseEntity.badRequest().body(e.getMessage()); // indica que o problema é do consumidor
+//    }
 }
