@@ -1,9 +1,11 @@
 package com.algaworks.algatransito.domain.model;
 
 
+import com.algaworks.algatransito.domain.validation.ValidationGroups;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -20,7 +22,7 @@ import java.util.Objects;
 public class Proprietario {
 
 
-
+    @NotNull(groups = ValidationGroups.ProprietarioId.class)
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,14 +33,13 @@ public class Proprietario {
     private String nome;
 
     @NotBlank
-    @Size(max=255)
+    @Size(max = 255)
     @Email
     private String email;
 
     @NotBlank
-    @Size(max= 14)
+    @Size(max = 14)
     private String telefone;
-
 
 
     // Construtor padrão (necessário para o JPA)
