@@ -1,5 +1,6 @@
 package com.algaworks.algatransito.api.controller;
 
+import com.algaworks.algatransito.domain.exception.NegocioException;
 import com.algaworks.algatransito.domain.model.Veiculo;
 import com.algaworks.algatransito.domain.repository.VeiculoRepository;
 import com.algaworks.algatransito.domain.service.RegistroVeiculoService;
@@ -37,5 +38,10 @@ public class VeiculoController {
     @ResponseStatus(HttpStatus.CREATED)
     public Veiculo cadastrar (@RequestBody Veiculo veiculo) {
      return registroVeiculoService.cadastrar(veiculo);
+    }
+
+    @ExceptionHandler(NegocioException.class) // metodo que captura excecoes
+    public ResponseEntity<String> capturar(NegocioException e) {
+        return ResponseEntity.badRequest().body(e.getMessage()); // indica que o problema é do consumidor
     }
 }
