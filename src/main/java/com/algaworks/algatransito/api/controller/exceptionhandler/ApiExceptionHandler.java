@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,6 +13,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.net.URI;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice//responsavel por capturar excecoes globais da apliacacao
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
@@ -31,12 +34,20 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
        2- Entrei pelo ResponseEntityExceptionHandler e peguei o metodo
        3- vamos instanciar o ProblemDetail, com ele nos podemos cusgtomizar os campos do retorno ao erro
      */
-    @Override
+    @Override // trata validacao de campos
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         ProblemDetail problemDetail = ProblemDetail.forStatus(status);
         problemDetail.setTitle("Um ou mais campos estao invalidos");
         problemDetail.setType(URI.create("https://algatransito.com/erros/campos-invalidos"));//REPSEMTA UMA uri
+
+        // Campos customizados no corpo - vamos saber quais propriedade deu problema
+        var fields = ex.getBindingResult().getAllErrors() // lista de todas as propriedades que esta com problemas
+                .stream()
+                .collect(Collectors.toMap(objectError -> ((FieldError) objectError).getField(), //coletos todos os elementos desse stream e passo para um map (NOME DO CAMPO)
+                                objectError -> objectError.getDefaultMessage())); //MENSAGEM DO CAMPO
+
+        problemDetail.setProperty("fields", fields);
 
         // o pulo do gato é passar o problemDetail
         return this.handleExceptionInternal(ex, problemDetail, headers, status, request);
