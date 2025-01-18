@@ -1,6 +1,9 @@
 package com.algaworks.algatransito.api.controller.exceptionhandler;
 
 import com.algaworks.algatransito.domain.exception.NegocioException;
+import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
@@ -13,12 +16,16 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.net.URI;
+import java.util.Locale;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @RestControllerAdvice//responsavel por capturar excecoes globais da apliacacao
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     //Usando a RFC 7807 - quando ResponseEntityExceptionHandler
+
+    private final MessageSource messageSourceource;
 
     //Captura agora independente de qual controller vier
     @ExceptionHandler(NegocioException.class) // metodo que captura excecoes
@@ -45,7 +52,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         var fields = ex.getBindingResult().getAllErrors() // lista de todas as propriedades que esta com problemas
                 .stream()
                 .collect(Collectors.toMap(objectError -> ((FieldError) objectError).getField(), //coletos todos os elementos desse stream e passo para um map (NOME DO CAMPO)
-                                objectError -> objectError.getDefaultMessage())); //MENSAGEM DO CAMPO
+                                objectError -> messageSourceource.getMessage(objectError, LocaleContextHolder.getLocale()))); // esse messaSource resolve essa mensagem e busca no arquivo message.properties que esta na pasra resource
+                     //   objectError -> objectError.getDefaultMessage())); //MENSAGEM DO CAMPO
 
         problemDetail.setProperty("fields", fields);
 

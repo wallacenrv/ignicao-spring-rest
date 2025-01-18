@@ -2,6 +2,7 @@ package com.algaworks.algatransito.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class Veiculo {
    // @JoinColumn(name= "proprietario_id")
     private Proprietario proprietario;
 
+    @Pattern(regexp = "[A-Z]{3}[0-9][0-9A-Z][0-9]{2}")
     private String marca;
     private String modelo;
     private String placa;
