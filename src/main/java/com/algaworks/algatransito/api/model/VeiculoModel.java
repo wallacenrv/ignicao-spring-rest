@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 public class VeiculoModel {
 
     private Long id;
-    private String nomeProprietario; // nao necessarioamente o modelo de representacao necessita ter o mesmo nome das propriedades das entidade s
+    private ProprietarioResumoModel proprietario; // nao necessarioamente o modelo de representacao necessita ter o mesmo nome das propriedades das entidade s
     private String marca;
     private String modelo;
     private String numeroPlaca;
