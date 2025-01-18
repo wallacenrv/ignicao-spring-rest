@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -42,8 +43,11 @@ public class RegistroVeiculoService {
 
         novoVeiculo.setProprietario(proprietarioBuscado);
         novoVeiculo.setStatus(StatusVeiculo.REGULAR);
-        novoVeiculo.setDataCadastro(LocalDateTime.now());
+        novoVeiculo.setDataCadastro(OffsetDateTime.now());
 
         return veiculoRepository.save(novoVeiculo);
+
+        //2023-05-18T15:00:00\
+        //2023-05-18T15:00:00-003:00 OFFSET MESMA COISA 2023-05-18T15:00:00Z
     }
 }
