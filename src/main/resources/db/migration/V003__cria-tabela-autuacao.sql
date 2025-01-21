@@ -3,7 +3,7 @@ create table autuacao (
     veiculo_id bigint not null,
     descricao text not null,
     valor_multa decimal(10,2) not null,
-    valor_ocorrencia datetime not null,
+   data_ocorrencia datetime not null,
 
     primary key (id)
 

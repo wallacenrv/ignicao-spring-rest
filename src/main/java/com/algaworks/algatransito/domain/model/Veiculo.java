@@ -46,7 +46,7 @@ public class Veiculo {
     // mesmo o consumidor da API passando a propriedade. Náo sera regidtrada
     private OffsetDateTime dataApreensao;
 
-    @OneToMany(mappedBy = "veiculo") // vincula com o ManyToOne
+    @OneToMany(mappedBy = "veiculo", cascade = CascadeType.ALL) // vincula com o ManyToOne, esse cascade, qualquer mudanca que fizermos sera sincronizado , cascateado no banco de dados
     private List<Autuacao> autuacoes = new ArrayList<>();
 
 

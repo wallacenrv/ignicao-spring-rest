@@ -20,13 +20,14 @@ public class AutuacaoController {
 
     private final RegistroAutuacaoService registroAutuacaoService;
 
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AutuacaoModel cadastrar (@RequestBody AutuacaoInput autuacaoInput,
-                                    @PathVariable Long idVeiculo) {
-        var autuacao= autuacaoAssembler.toEntity(autuacaoInput);
-        return autuacaoAssembler.toModel(registroAutuacaoService.registrar(idVeiculo, autuacao));
-
+    public AutuacaoModel cadastrar(@RequestBody AutuacaoInput autuacaoInput,
+                                   @PathVariable Long idVeiculo) {
+        var autuacao = autuacaoAssembler.toEntity(autuacaoInput);
+        var autuacaoRegistrada = registroAutuacaoService.registrar(idVeiculo, autuacao);
+        return autuacaoAssembler.toModel(autuacaoRegistrada);
 
     }
 }
