@@ -10,6 +10,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -43,5 +45,19 @@ public class Veiculo {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     // mesmo o consumidor da API passando a propriedade. Náo sera regidtrada
     private OffsetDateTime dataApreensao;
+
+    @OneToMany(mappedBy = "veiculo") // vincula com o ManyToOne
+    private List<Autuacao> autuacoes = new ArrayList<>();
+
+
+    public Autuacao adicionarAutuacao(Autuacao autuacao) {
+
+        autuacao.setDataOcorrencia(OffsetDateTime.now());
+        autuacao.setVeiculo(this);
+        getAutuacoes().add(autuacao); // jakarta ja fez um insert na tabela de autuacao
+
+        return autuacao;
+
+    }
 
 }

@@ -25,6 +25,12 @@ public class RegistroVeiculoService {
     @Autowired
     private RegistroProprietarioService registroProprietarioService;
 
+
+    public Veiculo buscar(Long veiculoId) {
+        return veiculoRepository.findById(veiculoId)
+                .orElseThrow(()-> new NegocioException("Veiculo não encontrado"));
+
+    }
     @Transactional
     public Veiculo cadastrar(Veiculo novoVeiculo) {
 
