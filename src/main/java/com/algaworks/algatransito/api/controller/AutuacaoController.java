@@ -8,6 +8,7 @@ import com.algaworks.algatransito.domain.model.Autuacao;
 import com.algaworks.algatransito.domain.model.Veiculo;
 import com.algaworks.algatransito.domain.repository.AutuacaoRepository;
 import com.algaworks.algatransito.domain.service.RegistroAutuacaoService;
+import com.algaworks.algatransito.domain.service.RegistroVeiculoService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class AutuacaoController {
 
     private final RegistroAutuacaoService registroAutuacaoService;
 
-    private final AutuacaoRepository autuacaoRepository;
+    private final RegistroVeiculoService registroVeiculoService;
 
 
     @PostMapping
@@ -34,6 +35,14 @@ public class AutuacaoController {
         var autuacao = autuacaoAssembler.toEntity(autuacaoInput);
         var autuacaoRegistrada = registroAutuacaoService.registrar(idVeiculo, autuacao);
         return autuacaoAssembler.toModel(autuacaoRegistrada);
+
+    }
+
+    @GetMapping
+    public List<AutuacaoModel> listar(@PathVariable Long idVeiculo) {
+
+        Veiculo veiculo = registroVeiculoService.buscar(idVeiculo);
+        return autuacaoAssembler.toCollectiontoModel(veiculo.getAutuacoes());
 
     }
 
