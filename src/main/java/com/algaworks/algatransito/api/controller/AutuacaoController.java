@@ -6,10 +6,14 @@ import com.algaworks.algatransito.api.model.VeiculoModel;
 import com.algaworks.algatransito.api.model.input.AutuacaoInput;
 import com.algaworks.algatransito.domain.model.Autuacao;
 import com.algaworks.algatransito.domain.model.Veiculo;
+import com.algaworks.algatransito.domain.repository.AutuacaoRepository;
 import com.algaworks.algatransito.domain.service.RegistroAutuacaoService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -19,6 +23,8 @@ public class AutuacaoController {
     private final AutuacaoAssembler autuacaoAssembler;
 
     private final RegistroAutuacaoService registroAutuacaoService;
+
+    private final AutuacaoRepository autuacaoRepository;
 
 
     @PostMapping
@@ -30,4 +36,5 @@ public class AutuacaoController {
         return autuacaoAssembler.toModel(autuacaoRegistrada);
 
     }
+
 }

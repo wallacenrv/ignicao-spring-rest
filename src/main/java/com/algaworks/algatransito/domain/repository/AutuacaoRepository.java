@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AutuacaoRepository extends JpaRepository<Autuacao, Long> {
+
+    Autuacao findByVeiculoId(Long idVeiculo);
 }
